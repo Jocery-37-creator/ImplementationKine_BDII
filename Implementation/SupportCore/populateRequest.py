@@ -32,7 +32,7 @@ if not agent_ids:
     exit()
 
 # Fetch all users from PostgreSQL
-pg_cursor.execute('SELECT user_id FROM "User";')
+pg_cursor.execute('SELECT user_id FROM "User" LIMIT 1000;')
 users = pg_cursor.fetchall()
 
 if not users:
