@@ -21,7 +21,7 @@ cursor.execute('SELECT account_id FROM account')
 accounts = [row[0] for row in cursor.fetchall()]
 
 # Simulation parameters
-TOTAL = 463
+TOTAL = 463 #Transactions per minute in Nequi's app
 types = ['transfer', 'withdrawal', 'bill_payment', 'credit']
 statuses = ['completed', 'pending', 'failed']
 channels = ['ATM', 'branch', 'corresponsal', 'online']
@@ -36,14 +36,14 @@ def insert_movement_with_detail():
     status = random.choices(statuses, weights=[0.85, 0.10, 0.05])[0]
     type_movement = random.choice(types)
     reference = faker.bothify(text='Trans###???')
-    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    random_datetime = faker.date_time_between(start_date='-6M', end_date='now')
 
     # Insertion into Movement with RETURNING
     cursor.execute("""
         INSERT INTO movement (source_account_id, amount, date_time, status, type_movement, reference)
         VALUES (%s, %s, %s, %s, %s, %s)
         RETURNING movement_id
-    """, (source_acc, amount, now, status, type_movement, reference))
+    """, (source_acc, amount, random_datetime, status, type_movement, reference))
     mov_id = cursor.fetchone()[0]
 
     # Insertion into the corresponding child table

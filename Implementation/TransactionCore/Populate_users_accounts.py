@@ -43,8 +43,8 @@ def insert_user_and_account():
     """, (user_id, type_account, balance, monthly_limit, account_status))
 
 # Insert multiple users
-TOTAL = 5000
-BATCH_SIZE = 1000
+TOTAL = 100
+BATCH_SIZE = 50
 
 for i in range(0, TOTAL):
     insert_user_and_account()
